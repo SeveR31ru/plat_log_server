@@ -1,0 +1,186 @@
+ucli
+pm
+port-del -/-
+port-add -/- 40G NONE
+port-enb -/-
+
+exit
+exit
+
+
+        ********************************************
+        *      WARNING: Authorised Access Only     *
+        ********************************************
+    
+bfshell> ucli
+Cannot read termcap database;
+using dumb terminal settings.
+bf-sde> pm
+bf-sde.pm> port-del -/-
+bf-sde.pm> port-add -/- 40G NONE
+bf-sde.pm> port-enb -/-
+bf-sde.pm> 
+bf-sde.pm> exit
+bfshell> exit
+ucli
+
+show
+
+exit
+exit
+
+
+        ********************************************
+        *      WARNING: Authorised Access Only     *
+        ********************************************
+    
+bfshell> ucli
+Cannot read termcap database;
+using dumb terminal settings.
+bf-sde.pm> 
+bf-sde.pm> show
+-----+----+---+----+-------+----+--+--+---+---+---+--------+----------------+----------------+-
+PORT |MAC |D_P|P/PT|SPEED  |FEC |AN|KR|RDY|ADM|OPR|LPBK    |FRAMES RX       |FRAMES TX       |E
+-----+----+---+----+-------+----+--+--+---+---+---+--------+----------------+----------------+-
+1/0  |23/0|128|3/ 0|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+2/0  |20/0|152|3/24|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+3/0  |18/0|168|3/40|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+4/0  |16/0|184|3/56|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+5/0  |14/0| 52|1/52|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+6/0  |12/0| 36|1/36|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+7/0  |10/0| 20|1/20|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+8/0  | 8/0|  4|1/ 4|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+9/0  | 6/0|  8|1/ 8|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+10/0 | 4/0| 24|1/24|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+11/0 | 2/0| 40|1/40|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+12/0 | 0/0| 56|1/56|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+13/0 |30/0|180|3/52|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+14/0 |28/0|164|3/36|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+15/0 |26/0|148|3/20|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+16/0 |24/0|132|3/ 4|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+bf-sde.pm> 
+bf-sde.pm> exit
+bfshell> exit
+ucli
+pm
+show
+..
+diags
+lpbk-setup 0 all 3
+lpbk-start 0 1000 200
+lpbk-status 0
+lpbk-cleanup 0
+..
+pm
+show
+exit
+exit
+
+
+        ********************************************
+        *      WARNING: Authorised Access Only     *
+        ********************************************
+    
+bfshell> ucli
+Cannot read termcap database;
+using dumb terminal settings.
+bf-sde.pm> pm
+error: unknown command 'pm'
+bf-sde.pm> show
+-----+----+---+----+-------+----+--+--+---+---+---+--------+----------------+----------------+-
+PORT |MAC |D_P|P/PT|SPEED  |FEC |AN|KR|RDY|ADM|OPR|LPBK    |FRAMES RX       |FRAMES TX       |E
+-----+----+---+----+-------+----+--+--+---+---+---+--------+----------------+----------------+-
+1/0  |23/0|128|3/ 0|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+2/0  |20/0|152|3/24|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+3/0  |18/0|168|3/40|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+4/0  |16/0|184|3/56|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+5/0  |14/0| 52|1/52|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+6/0  |12/0| 36|1/36|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+7/0  |10/0| 20|1/20|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+8/0  | 8/0|  4|1/ 4|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+9/0  | 6/0|  8|1/ 8|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+10/0 | 4/0| 24|1/24|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+11/0 | 2/0| 40|1/40|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+12/0 | 0/0| 56|1/56|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+13/0 |30/0|180|3/52|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+14/0 |28/0|164|3/36|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+15/0 |26/0|148|3/20|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+16/0 |24/0|132|3/ 4|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |               0|               0| 
+bf-sde.pm> ..
+bf-sde> diags
+bf-sde.diags> lpbk-setup 0 all 3
+diag:: Loopback test setup <dev=0> <port-range=all><loop-mode=3> 
+Num ports is 16 
+Ports -> 4,8,20,24,36,40,52,56,128,132,148,152,164,168,180,184
+Loopback test setup success 
+Loopback Session Handle: 1 
+bf-sde.diags> lpbk-start 0 1000 200
+diag:: Loopback test start <sess-hdl=0> <num-pkt=1000><pkt-size=200> 
+Using default session-handle 1 
+Loopback test started 
+bf-sde.diags> lpbk-status 0
+diag:: Loopback Test status <sess-hdl=0>
+Using default session-handle 1 
+  Test Status: Pass 
+Port loopback status: 
+Port 4 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 8 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 20 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 24 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 36 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 40 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 52 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 56 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 128 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 132 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 148 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 152 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 164 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 168 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 180 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+Port 184 :   Test Status: Pass 
+  Stats: Tx-total=1000, rx-total=1000, rx-good=1000, rx_bad=0 
+No of Tx packet completions: 16000
+bf-sde.diags> lpbk-cleanup 0
+diag:: Loopback Test cleanup <sess-hdl=0>
+Using default session-handle 1 
+Test cleanup success 
+bf-sde.diags> ..
+bf-sde> pm
+bf-sde.pm> show
+-----+----+---+----+-------+----+--+--+---+---+---+--------+----------------+----------------+-
+PORT |MAC |D_P|P/PT|SPEED  |FEC |AN|KR|RDY|ADM|OPR|LPBK    |FRAMES RX       |FRAMES TX       |E
+-----+----+---+----+-------+----+--+--+---+---+---+--------+----------------+----------------+-
+1/0  |23/0|128|3/ 0|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+2/0  |20/0|152|3/24|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+3/0  |18/0|168|3/40|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+4/0  |16/0|184|3/56|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+5/0  |14/0| 52|1/52|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+6/0  |12/0| 36|1/36|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+7/0  |10/0| 20|1/20|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+8/0  | 8/0|  4|1/ 4|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+9/0  | 6/0|  8|1/ 8|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+10/0 | 4/0| 24|1/24|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+11/0 | 2/0| 40|1/40|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+12/0 | 0/0| 56|1/56|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+13/0 |30/0|180|3/52|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+14/0 |28/0|164|3/36|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+15/0 |26/0|148|3/20|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+16/0 |24/0|132|3/ 4|40G    |NONE|Au|Au|YES|ENB|UP |  NONE  |            1000|            1000| 
+bf-sde.pm> exit
+bfshell> exit

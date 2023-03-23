@@ -1,0 +1,50 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Work Logs</title>
+    </head>
+    <body>
+        <header>
+            <h1>
+                Страница для работы с логами(в разработке)
+            </h1>
+        </header>
+        <main>
+            <form action="/get_fast_ocp_logs" method="get" target=_blank>
+                <label>Получение логов OCP</label>
+                <p></p>
+                <select class="js-select2" name="ocp_code">
+                    <option value="">Выберите значение</option>
+                    
+                    <option value="DEADFACE">DEADFACE</option>
+                    
+                    <option value="D8803960B1">D8803960B1</option>
+                    
+                </select>
+                <b1></b1>
+                <input type="submit" value="Посмотреть таблицу логов этой платы">
+            </form>
+            <p></p>
+            <form action="/get_fast_tofino_logs" method="get" target=_blank>
+                <label>Получение логов TOFINO</label>
+                <p></p>
+                <select name="tofino_code">
+                    <option value="">Выберите значение</option>
+                    
+                    <option value="D8803960B1">D8803960B1</option>
+                    
+                </select>
+                <b1></b1>
+                <input type="submit" value="Посмотреть таблицу логов этой платы">
+            </form>
+
+
+           
+        </main>
+    </body>
+    </html>
+    
