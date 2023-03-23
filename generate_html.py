@@ -27,12 +27,15 @@ def generate_start_html():
             <form action="/get_fast_ocp_logs" method="get" target=_blank>
                 <label>Получение логов OCP</label>
                 <p></p>
-                <select name="ocp_code">
+                <input list="plats_ocp" placeholder="Введите номер"name=ocp_code >
+                
+                <datalist id="plats_ocp">
                     <option value="">Выберите значение</option>
                     {% for code in ocp_codes %}
-                    <option value="{{code}}">{{code}}</option>
+                    <option value="{{code}}"></option>
                     {% endfor %}
-                </select>
+                </datalist>
+
                 <b1></b1>
                 <input type="submit" value="Посмотреть таблицу логов этой платы">
             </form>
@@ -40,12 +43,15 @@ def generate_start_html():
             <form action="/get_fast_tofino_logs" method="get" target=_blank>
                 <label>Получение логов TOFINO</label>
                 <p></p>
-                <select name="tofino_code">
+                <input list="plats_tofino" placeholder="Введите номер"name=tofino_code >
+                
+                <datalist id="plats_tofino">
                     <option value="">Выберите значение</option>
                     {% for code in tofino_codes %}
-                    <option value="{{code}}">{{code}}</option>
+                    <option value="{{code}}"></option>
                     {% endfor %}
-                </select>
+                </datalist>
+        
                 <b1></b1>
                 <input type="submit" value="Посмотреть таблицу логов этой платы">
             </form>
@@ -90,14 +96,17 @@ def generate_fast_ocp_logs(ocp_code:str):
             </h1>
         </header>
         <main>
-            <table border="1">
-                <caption>Таблица логов платы {{code}}</caption>
-                <tr>
+            <table border="1" table class="table_sort">
+            <caption>Таблица логов платы {{code}}</caption>
+            <thead>
+                    <tr>
                     <th>Вид теста</th>
                     <th>Время теста</th>
                     <th>Статус теста</th>
                     <th>Открыть тест подробно</th>
-                </tr>
+                    </tr>
+            </thead>
+            <tbody>
                 {% for name in list_of_cut_names %}
                 <tr>
                     <th>{{name[0]}}</th>
@@ -110,7 +119,26 @@ def generate_fast_ocp_logs(ocp_code:str):
                     </th>
                 </tr>
                 {% endfor %}
+            </tbody>
             </table>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                const getSort = ({ target }) => {
+                    const order = (target.dataset.order = -(target.dataset.order || -1));
+                    const index = [...target.parentNode.cells].indexOf(target);
+                    const collator = new Intl.Collator(['en', 'ru'], { numeric: true });
+                    const comparator = (index, order) => (a, b) => order * collator.compare(
+                        a.children[index].innerHTML,
+                        b.children[index].innerHTML
+                    );
+                    for(const tBody of target.closest('table').tBodies)
+                        tBody.append(...[...tBody.rows].sort(comparator(index, order)));
+                    for(const cell of target.parentNode.cells)
+                        cell.classList.toggle('sorted', cell === target);
+                };
+                document.querySelectorAll('.table_sort thead').forEach(tableTH => tableTH.addEventListener('click', () => getSort(event)));
+                });
+            </script>
         </main>
     </body>
     </html>
@@ -167,7 +195,7 @@ def generate_fast_tofino_logs(tofino_code:str):
                 break
         log_cut_name.append(status)
     template=jinja2.Template("""
-    <!DOCTYPE html>
+   <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -182,27 +210,49 @@ def generate_fast_tofino_logs(tofino_code:str):
             </h1>
         </header>
         <main>
-            <table border="1">
-                <caption>Таблица логов платы {{code}}</caption>
-                <tr>
+            <table border="1" table class="table_sort">
+            <caption>Таблица логов платы {{code}}</caption>
+            <thead>
+                    <tr>
                     <th>Вид теста</th>
                     <th>Время теста</th>
                     <th>Статус теста</th>
                     <th>Открыть тест подробно</th>
-                </tr>
+                    </tr>
+            </thead>
+            <tbody>
                 {% for name in list_of_cut_names %}
                 <tr>
                     <th>{{name[0]}}</th>
                     <th>{{name[2]}}</th>
                     <th>{{name[3]}}</th>
                     <th>
-                        <form action="/get_big_tofino_log" method="get" target=_blank>
+                        <form action="/get_big_ocp_log" method="get" target=_blank>
                         <button value="{{[name[0],name[1],name[2]]|join('_')}}" name="log_path" type="submit">Посмотреть этот лог подробнее</button>
                         </form
                     </th>
                 </tr>
                 {% endfor %}
+            </tbody>
             </table>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                const getSort = ({ target }) => {
+                    const order = (target.dataset.order = -(target.dataset.order || -1));
+                    const index = [...target.parentNode.cells].indexOf(target);
+                    const collator = new Intl.Collator(['en', 'ru'], { numeric: true });
+                    const comparator = (index, order) => (a, b) => order * collator.compare(
+                        a.children[index].innerHTML,
+                        b.children[index].innerHTML
+                    );
+                    for(const tBody of target.closest('table').tBodies)
+                        tBody.append(...[...tBody.rows].sort(comparator(index, order)));
+                    for(const cell of target.parentNode.cells)
+                        cell.classList.toggle('sorted', cell === target);
+                };
+                document.querySelectorAll('.table_sort thead').forEach(tableTH => tableTH.addEventListener('click', () => getSort(event)));
+                });
+            </script>
         </main>
     </body>
     </html>
