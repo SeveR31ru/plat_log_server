@@ -1,8 +1,15 @@
 import jinja2
 import os
-
+import note
 PATH_OCP='ocp_logs'
 PATH_TOFINO='tofino_logs'
+
+
+
+"""
+Все функции, связанные с генерацией html-страниц для логов
+
+"""
 
 
 def generate_start_html():
@@ -68,6 +75,7 @@ def generate_start_html():
 
 def generate_fast_ocp_logs(ocp_code:str):
     ocp_logs_files=os.listdir(f"{PATH_OCP}/{ocp_code}")
+    list_of_notes=note.read_note(ocp_code)
     list_of_cut_names=[]
     for log_name in ocp_logs_files:
         status='success'
@@ -121,6 +129,52 @@ def generate_fast_ocp_logs(ocp_code:str):
                 {% endfor %}
             </tbody>
             </table>
+            <table border="1" table class="table_sort">
+                <caption>Таблица заметок для этой платы</caption>
+                <thead>
+                        <tr>
+                        <th>Заметка</th>
+                        <th>Время заметки</th>
+                        </tr>
+                </thead>
+                <tbody>  
+                   {% for note in list_of_notes %}
+                    <tr>
+                    <th>{{note[1]}}</th>
+                    <th>{{note[2]}}</th>
+
+                    </th>
+                   {% endfor %}
+                </tbody>
+            </table>
+            <p><textarea name="note" cols="50" rows="10" id="note" ></textarea></p>
+            <input type="text" name="code" value="{{code}}" id="code" hidden readonly>
+            <button onclick="send()" >Отправить заметку об этой плате></button>    
+            <script>
+            async function send(){
+                    // получаем введеное в поле имя и возраст
+                    const note = document.getElementById("note").value;
+                    const code = document.getElementById("code").value;
+          
+                    // отправляем запрос
+                    const response = await fetch("/send_note", {
+                            method: "POST",
+                            headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                            body: JSON.stringify({ 
+                                note: note,
+                                code: code
+                            })
+                        });
+                        if (response.ok) {
+                            location.reload()
+                        }
+                        else
+                            console.log(response);
+                }
+            </script>
+            
+            
+        
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
                 const getSort = ({ target }) => {
@@ -139,11 +193,23 @@ def generate_fast_ocp_logs(ocp_code:str):
                 document.querySelectorAll('.table_sort thead').forEach(tableTH => tableTH.addEventListener('click', () => getSort(event)));
                 });
             </script>
+              <script>
+                function deleteName(f) 
+                {
+                    if (confirm("Вы уверены, что хотите удалить выделенный пункт?Эта операция не восстановима.")) 
+                    f.submit();
+                }
+                </script>
+
+
+            
         </main>
     </body>
     </html>
     """)
-    html = template.render(code=ocp_code,list_of_cut_names=list_of_cut_names)
+    html = template.render(code=ocp_code,
+                            list_of_cut_names=list_of_cut_names,
+                            list_of_notes=list_of_notes)
     save=open(f'web/{ocp_code}.html','w')
     save.write(html)
     save.close()
@@ -182,6 +248,7 @@ def generate_big_ocp_log(log_path:str):
 
 def generate_fast_tofino_logs(tofino_code:str):
     tofino_logs_files=os.listdir(f"{PATH_TOFINO}/{tofino_code}")
+    list_of_notes=note.read_note(tofino_code)
     list_of_cut_names=[]
     for log_name in tofino_logs_files:
         status='success'
@@ -195,7 +262,7 @@ def generate_fast_tofino_logs(tofino_code:str):
                 break
         log_cut_name.append(status)
     template=jinja2.Template("""
-   <!DOCTYPE html>
+    <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -227,7 +294,7 @@ def generate_fast_tofino_logs(tofino_code:str):
                     <th>{{name[2]}}</th>
                     <th>{{name[3]}}</th>
                     <th>
-                        <form action="/get_big_ocp_log" method="get" target=_blank>
+                        <form action="/get_big_tofino_log" method="get" target=_blank>
                         <button value="{{[name[0],name[1],name[2]]|join('_')}}" name="log_path" type="submit">Посмотреть этот лог подробнее</button>
                         </form
                     </th>
@@ -235,6 +302,58 @@ def generate_fast_tofino_logs(tofino_code:str):
                 {% endfor %}
             </tbody>
             </table>
+            <table border="1" table class="table_sort">
+                <caption>Таблица заметок для этой платы</caption>
+                <thead>
+                        <tr>
+                        <th>Заметка</th>
+                        <th>Время заметки</th>
+                        </tr>
+                </thead>
+                <tbody>  
+                   {% for note in list_of_notes %}
+                    <tr>
+                    <th>{{note[1]}}</th>
+                    <th>{{note[2]}}</th>
+
+                    </th>
+                   {% endfor %}
+                </tbody>
+            </table>  
+            <p><textarea name="note" cols="50" rows="10" id="note" ></textarea></p>
+            <input type="text" name="code" value="{{code}}" id="code" hidden readonly>
+            <button onclick="send()" >Отправить заметку об этой плате></button>    
+            <script>
+            async function send(){
+                    // получаем введеное в поле имя и возраст
+                    const note = document.getElementById("note").value;
+                    const code = document.getElementById("code").value;
+          
+                    // отправляем запрос
+                    const response = await fetch("/send_note", {
+                            method: "POST",
+                            headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                            body: JSON.stringify({ 
+                                note: note,
+                                code: code
+                            })
+                        });
+                        if (response.ok) {
+                            location.reload()
+                        }
+                        else
+                            console.log(response);
+                }
+            </script>
+            
+            
+            
+            
+            
+            
+            
+            
+            
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
                 const getSort = ({ target }) => {
@@ -257,7 +376,9 @@ def generate_fast_tofino_logs(tofino_code:str):
     </body>
     </html>
     """)
-    html = template.render(code=tofino_code,list_of_cut_names=list_of_cut_names)
+    html = template.render(code=tofino_code,
+                            list_of_cut_names=list_of_cut_names,
+                            list_of_notes=list_of_notes)
     save=open(f'web/{tofino_code}.html','w')
     save.write(html)
     save.close()
@@ -292,33 +413,3 @@ def generate_big_tofino_log(log_path:str):
     save.close()
 
 
-"""
-
-для будущей вставки в генерацию страниц
-<table border="1" table class="table_sort">
-                <caption>Таблица заметок для этой платы</caption>
-                <thead>
-                        <tr>
-                        <th>Время заметки</th>
-                        <th>Заметка</th>
-                        </tr>
-                </thead>
-                <tbody>  
-                    <tr>
-                        <th>2023-03-22-12-33</th>
-                        <th>Уронили плату на пол......</th>
-                    </tr>
-                    <tr>
-                        <th>2023-03-22-10-57</th>
-                        <th>Оторвали плате лапу..... </th>
-                    </tr>
-                </tbody>
-            </table>
-            <form action="/send_note">        
-            <p><textarea name="note" cols="50" rows="10" ></textarea></p>
-            <input type="text" name="code" value="DEADFACE" hidden readonly>
-            <input type="submit" value="Отправить заметку об этой плате">
-            </form>
-
-
-"""

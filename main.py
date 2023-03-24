@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Body
 from fastapi.templating import Jinja2Templates
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import FileResponse
@@ -7,7 +7,7 @@ import configparser
 import os
 from datamatrix import datamatrix_create
 import generate_html
-import note
+import note as nt
 
 PATH_OCP='ocp_logs'
 PATH_TOFINO='tofino_logs'
@@ -59,9 +59,8 @@ def getBigOcpLog(log_path:str,request:Request):
     generate_html.generate_big_tofino_log(log_path)
     return templates.TemplateResponse(f"{log_path}.html",{"request":request})
 
-@app.get("/send_note")
-def GetNotes(code:str,note:str): 
-    note.add_note(code,note)
+
+
 '''
 ToDo-переделать на будущее, 
 чтобы можно было скачивать все логи выбранной платы в архиве
@@ -71,7 +70,18 @@ def getLogs(name:str):
     return res
 '''
 
+
+
 #Post-запросы
+
+
+@app.post("/send_note")
+def GetNotes(data=Body()): 
+    code=data["code"]
+    note=data["note"]
+    nt.add_note(code, note)
+    return None
+
 
 @app.post("/send_ocp")
 def getLogs(file:UploadFile):
@@ -101,8 +111,13 @@ def getLogs(file:UploadFile):
     f.close() 
     return name
 
+"""
+@app.post("/send_note")
+def GetNotes(code:str,note:str,request:Request): 
+    nt.add_note(code, note)
+    return note
 
-
+"""
 
 uvicorn.run(app, host=host, port=port)
 
