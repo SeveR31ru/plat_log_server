@@ -292,6 +292,33 @@ def generate_big_tofino_log(log_path:str):
     save.close()
 
 
+"""
 
-if __name__=="__main__":
-    generate_start_html()
+для будущей вставки в генерацию страниц
+<table border="1" table class="table_sort">
+                <caption>Таблица заметок для этой платы</caption>
+                <thead>
+                        <tr>
+                        <th>Время заметки</th>
+                        <th>Заметка</th>
+                        </tr>
+                </thead>
+                <tbody>  
+                    <tr>
+                        <th>2023-03-22-12-33</th>
+                        <th>Уронили плату на пол......</th>
+                    </tr>
+                    <tr>
+                        <th>2023-03-22-10-57</th>
+                        <th>Оторвали плате лапу..... </th>
+                    </tr>
+                </tbody>
+            </table>
+            <form action="/send_note">        
+            <p><textarea name="note" cols="50" rows="10" ></textarea></p>
+            <input type="text" name="code" value="DEADFACE" hidden readonly>
+            <input type="submit" value="Отправить заметку об этой плате">
+            </form>
+
+
+"""
