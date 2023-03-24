@@ -21,6 +21,9 @@ try:
 except:
     pass
 
+if not os.path.exists("web"):
+    os.mkdir("web")
+
 app = FastAPI()
 templates = Jinja2Templates(directory="web")
 
