@@ -1,6 +1,6 @@
 import jinja2
 import os
-import note
+import note as nt
 PATH_OCP='ocp_logs'
 PATH_TOFINO='tofino_logs'
 
@@ -13,6 +13,10 @@ PATH_TOFINO='tofino_logs'
 
 
 def generate_start_html():
+    
+    '''
+    Функция генерации стартовой страницы с строками поиска плат
+    '''
     ocp_codes=os.listdir(PATH_OCP)
     tofino_codes=os.listdir(PATH_TOFINO)
     template = jinja2.Template("""
@@ -74,8 +78,15 @@ def generate_start_html():
 #OCP-функции
 
 def generate_fast_ocp_logs(ocp_code:str):
+    '''
+    Функция генерации html-страницы одного лога OCP, чтобы его можно было прочитать
+
+    аргументы:
+    @log_path=полное имя файла,из которого впоследние вынимается номер платы для поиска папки
+    '''
+    
     ocp_logs_files=os.listdir(f"{PATH_OCP}/{ocp_code}")
-    list_of_notes=note.read_note(ocp_code)
+    list_of_notes=nt.read_note(ocp_code)
     list_of_cut_names=[]
     for log_name in ocp_logs_files:
         status='success'
@@ -215,6 +226,13 @@ def generate_fast_ocp_logs(ocp_code:str):
     save.close()
 
 def generate_big_ocp_log(log_path:str):
+    '''
+    Функция генерации html-страницы одного лога OCP, чтобы его можно было прочитать
+
+    аргументы:
+    @log_path=полное имя файла,из которого впоследние вынимается номер платы для поиска папки
+    '''
+    
     log_path_split=log_path.split("_")
     file=open(f"{PATH_OCP}/{log_path_split[1]}/{log_path}")
     lines=file.readlines()
@@ -247,8 +265,16 @@ def generate_big_ocp_log(log_path:str):
 #TOFINO-функции
 
 def generate_fast_tofino_logs(tofino_code:str):
+    '''
+    Функция генерации таблицы логов и заметок для выбранной платы TOFINO
+    
+    аргументы:
+    @tofino_code-номер TOFINO-платы
+    
+    '''
+    
     tofino_logs_files=os.listdir(f"{PATH_TOFINO}/{tofino_code}")
-    list_of_notes=note.read_note(tofino_code)
+    list_of_notes=nt.read_note(tofino_code)
     list_of_cut_names=[]
     for log_name in tofino_logs_files:
         status='success'
@@ -346,14 +372,7 @@ def generate_fast_tofino_logs(tofino_code:str):
                 }
             </script>
             
-            
-            
-            
-            
-            
-            
-            
-            
+   
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
                 const getSort = ({ target }) => {
@@ -386,6 +405,14 @@ def generate_fast_tofino_logs(tofino_code:str):
 
 
 def generate_big_tofino_log(log_path:str):
+    """
+    Функция генерации html-страницы одного лога TOFINO, чтобы его можно было прочитать
+
+    аргументы:
+    @log_path=полное имя файла,из которого впоследние вынимается номер платы для поиска папки
+
+    """
+    
     log_path_split=log_path.split("_")
     file=open(f"{PATH_TOFINO}/{log_path_split[1]}/{log_path}")
     lines=file.readlines()

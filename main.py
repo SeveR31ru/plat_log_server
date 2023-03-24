@@ -40,6 +40,8 @@ def getDatamatrix(datamatrix_data: str):
     datamatrix_create(datamatrix_data)
     return {"datamatrix_data ":datamatrix_data}
 
+#Get-запросы для формирования лог-страниц 
+
 @app.get("/get_fast_ocp_logs")
 def getFastOcpLogs(ocp_code:str,request: Request):
     generate_html.generate_fast_ocp_logs(ocp_code)
@@ -60,7 +62,6 @@ def getBigOcpLog(log_path:str,request:Request):
     return templates.TemplateResponse(f"{log_path}.html",{"request":request})
 
 
-
 '''
 ToDo-переделать на будущее, 
 чтобы можно было скачивать все логи выбранной платы в архиве
@@ -70,10 +71,7 @@ def getLogs(name:str):
     return res
 '''
 
-
-
 #Post-запросы
-
 
 @app.post("/send_note")
 def GetNotes(data=Body()): 
@@ -82,6 +80,7 @@ def GetNotes(data=Body()):
     nt.add_note(code, note)
     return None
 
+#Post-запросы для отсылки логов
 
 @app.post("/send_ocp")
 def getLogs(file:UploadFile):
@@ -111,13 +110,12 @@ def getLogs(file:UploadFile):
     f.close() 
     return name
 
-"""
-@app.post("/send_note")
-def GetNotes(code:str,note:str,request:Request): 
-    nt.add_note(code, note)
-    return note
 
-"""
+
+#Место для будущего кода внедрения паспортов
+
+
+
 
 uvicorn.run(app, host=host, port=port)
 

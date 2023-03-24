@@ -19,7 +19,6 @@ def add_note(code:str,note:str):
     note_table.to_csv("notes.csv",index= False)
 
 
-
 def read_note(code:str):
     """
     Функция для получения листа заметок данной платы в формате
@@ -43,10 +42,3 @@ def read_note(code:str):
             note_for_add.append(row[2])
             result_list.append(note_for_add)
     return result_list
-
-    
-
-
-    
-if __name__=="__main__":
-    notes_for_this_plat=read_note("DEADFACE")
