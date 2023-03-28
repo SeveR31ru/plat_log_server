@@ -19,6 +19,8 @@ try:
     host = str(config["COMMON"]["host"])
     port = int(config["COMMON"]["port"])
     printerName = str(config["COMMON"]["printerName"])
+    PATH_OCP=str(config["COMMON"]["path_ocp"])
+    PATH_TOFINO=str(config["COMMON"]["path_tofino"])
 except:
     pass
 

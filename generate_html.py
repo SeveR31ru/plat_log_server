@@ -1,9 +1,16 @@
+import configparser
 import jinja2
 import os
 import note as nt
-PATH_OCP='ocp_logs'
-PATH_TOFINO='tofino_logs'
 
+try:
+    # получение конфигов
+    config = configparser.ConfigParser()
+    config.read("./settings.ini")
+    PATH_OCP=str(config["COMMON"]["path_ocp"])
+    PATH_TOFINO=str(config["COMMON"]["path_tofino"])
+except:
+    pass
 
 
 """
@@ -348,7 +355,7 @@ def generate_fast_tofino_logs(tofino_code:str):
             </table>  
             <p><textarea name="note" cols="50" rows="10" id="note" ></textarea></p>
             <input type="text" name="code" value="{{code}}" id="code" hidden readonly>
-            <button onclick="send()" >Отправить заметку об этой плате></button>    
+            <button onclick="send()" >Отправить заметку об этой плате</button>    
             <script>
             async function send(){
                     // получаем введеное в поле имя и возраст
