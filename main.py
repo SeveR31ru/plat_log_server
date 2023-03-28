@@ -135,8 +135,5 @@ def get_ocp_pass(serialNumber:str):
     res = FileResponse(pass_file_path, media_type='application/octet-stream', filename=pass_file_name)
     return res
 
-    
-
-
 uvicorn.run(app, host=host, port=port)
 
