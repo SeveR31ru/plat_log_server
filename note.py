@@ -42,3 +42,23 @@ def read_note(code:str):
             note_for_add.append(row[2])
             result_list.append(note_for_add)
     return result_list
+
+
+def add_ocp_pass_note(serialNumber:str,pass_name:str):
+    """
+    Функция для записи новой комбинации серийный номер OCP-имя выданного паспорта в таблицу
+
+    аргументы:
+    @serialNumber-серийный номер платы из запроса
+
+    @pass_name-имя файла паспорта
+    
+    """
+
+    if not os.path.exists("ocp_passports.csv"):
+        create_pass_table=pd.DataFrame(columns=['serial_number','pass_name'])
+        create_pass_table.to_csv('ocp_passports.csv',index=False)
+    pass_table=pd.read_csv("ocp_passports.csv")
+    pass_table.loc[ len(pass_table.index )] = [serialNumber,pass_name]
+    pass_table.to_csv("ocp_passports.csv",index= False)
+    

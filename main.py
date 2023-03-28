@@ -6,11 +6,9 @@ import uvicorn
 import configparser
 import os
 from datamatrix import datamatrix_create
-import generate_html
+import generate_html 
 import note as nt
 
-PATH_OCP='ocp_logs'
-PATH_TOFINO='tofino_logs'
 
 try:
     # получение конфигов
@@ -21,6 +19,9 @@ try:
     printerName = str(config["COMMON"]["printerName"])
     PATH_OCP=str(config["COMMON"]["path_ocp"])
     PATH_TOFINO=str(config["COMMON"]["path_tofino"])
+    PATH_OCP_PASS=str(config["COMMON"]["path_ocp_passports"])
+    PATH_USED_OCP_PASS=str(config["COMMON"]["path_used_passports"])
+
 except:
     pass
 
@@ -38,28 +39,28 @@ def main(request: Request):
     return templates.TemplateResponse("main.html", {"request": request})
 
 @app.get("/get_datamatrix")
-def getDatamatrix(datamatrix_data: str):
+def get_datamatrix(datamatrix_data: str):
     datamatrix_create(datamatrix_data)
     return {"datamatrix_data ":datamatrix_data}
 
 #Get-запросы для формирования лог-страниц 
 
 @app.get("/get_fast_ocp_logs")
-def getFastOcpLogs(ocp_code:str,request: Request):
+def get_fast_ocp_logs(ocp_code:str,request: Request):
     generate_html.generate_fast_ocp_logs(ocp_code)
     return templates.TemplateResponse(f"{ocp_code}.html",{"request": request})
 
 @app.get("/get_big_ocp_log")
-def getBigOcpLog(log_path:str,request:Request):
+def get_big_ocp_log(log_path:str,request:Request):
     generate_html.generate_big_ocp_log(log_path)
     return templates.TemplateResponse(f"{log_path}.html",{"request":request})
 
 @app.get("/get_fast_tofino_logs")
-def getFastOcpLogs(tofino_code:str,request: Request):
+def get_fast_ocp_logs(tofino_code:str,request: Request):
     generate_html.generate_fast_tofino_logs(tofino_code)
     return templates.TemplateResponse(f"{tofino_code}.html",{"request": request})
 @app.get("/get_big_tofino_log")
-def getBigOcpLog(log_path:str,request:Request):
+def get_big_ocp_log(log_path:str,request:Request):
     generate_html.generate_big_tofino_log(log_path)
     return templates.TemplateResponse(f"{log_path}.html",{"request":request})
 
@@ -76,7 +77,7 @@ def getLogs(name:str):
 #Post-запросы
 
 @app.post("/send_note")
-def GetNotes(data=Body()): 
+def get_notes(data=Body()): 
     code=data["code"]
     note=data["note"]
     nt.add_note(code, note)
@@ -85,7 +86,7 @@ def GetNotes(data=Body()):
 #Post-запросы для отсылки логов
 
 @app.post("/send_ocp")
-def getLogs(file:UploadFile):
+def get_logs(file:UploadFile):
     if not os.path.exists(f'{PATH_OCP}'):
         os.mkdir(f"{PATH_OCP}")
     name=file.filename
@@ -99,7 +100,7 @@ def getLogs(file:UploadFile):
     return name
 
 @app.post("/send_tofino")
-def getLogs(file:UploadFile):
+def get_logs(file:UploadFile):
     if not os.path.exists(f'{PATH_TOFINO}'):
         os.mkdir(f"{PATH_TOFINO}")
     name=file.filename
@@ -112,11 +113,29 @@ def getLogs(file:UploadFile):
     f.close() 
     return name
 
+#Post-запросы для паспортов
 
 
-#Место для будущего кода внедрения паспортов
+@app.post("/get_ocp_pass")
+def get_ocp_pass(serialNumber:str):
+    #создаем папки, если они не созданы
+    if not os.path.exists(PATH_OCP_PASS):
+        os.mkdir(PATH_OCP_PASS)
+    if not os.path.exists(PATH_USED_OCP_PASS):
+        os.mkdir(PATH_USED_OCP_PASS)
+    #проверяем, есть ли паспорта
+    list_os_passports=os.listdir(PATH_OCP_PASS)
+    if not list_os_passports:
+        return('Папка с паспортами пуста')
+    pass_file_name=list_os_passports[0]
+    #перемещаем взятый паспорт в папку использованных
+    os.rename(f'{PATH_OCP_PASS}/{pass_file_name}', f'{PATH_USED_OCP_PASS}/{pass_file_name}')
+    nt.add_ocp_pass_note(serialNumber, pass_file_name)
+    pass_file_path=f'{PATH_USED_OCP_PASS}/{pass_file_name}'
+    res = FileResponse(pass_file_path, media_type='application/octet-stream', filename=pass_file_name)
+    return res
 
-
+    
 
 
 uvicorn.run(app, host=host, port=port)
