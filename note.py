@@ -62,3 +62,28 @@ def add_ocp_pass_note(serialNumber:str,pass_name:str):
     pass_table.loc[ len(pass_table.index )] = [serialNumber,pass_name]
     pass_table.to_csv("ocp_passports.csv",index= False)
     
+def read_ocp_pass_note(serialNumber:str):
+
+    """
+    Функция для проверки наличия паспорта у платы и вывод его номера
+
+    аргументы:
+    @serialNumber- уникальный серийный номер платы 
+    
+    """
+
+    if not os.path.exists("ocp_passports.csv"):
+        create_pass_table=pd.DataFrame(columns=['serial_number','pass_name'])
+        create_pass_table.to_csv('ocp_passports.csv',index=False)
+    pass_table=pd.read_csv("ocp_passports.csv")
+    passport="не выдан"
+    for i, row in pass_table.iterrows():
+        if row[0]==serialNumber:
+            passport=row[1]
+            break
+    return passport
+
+
+if __name__=="__main__":
+        add_ocp_pass_note("DEADNOTE",'azaza.bin')
+        print(read_ocp_pass_note("DEADNOTE"))

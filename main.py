@@ -77,16 +77,16 @@ def getLogs(name:str):
 #Post-запросы
 
 @app.post("/send_note")
-def get_notes(data=Body()): 
+def send_notes(data=Body()): 
     code=data["code"]
     note=data["note"]
     nt.add_note(code, note)
     return None
 
-#Post-запросы для отсылки логов
+#запросы для отсылки логов
 
 @app.post("/send_ocp")
-def get_logs(file:UploadFile):
+def send_ocp_logs(file:UploadFile):
     if not os.path.exists(f'{PATH_OCP}'):
         os.mkdir(f"{PATH_OCP}")
     name=file.filename
@@ -100,7 +100,7 @@ def get_logs(file:UploadFile):
     return name
 
 @app.post("/send_tofino")
-def get_logs(file:UploadFile):
+def send_tofino_logs(file:UploadFile):
     if not os.path.exists(f'{PATH_TOFINO}'):
         os.mkdir(f"{PATH_TOFINO}")
     name=file.filename
@@ -113,11 +113,11 @@ def get_logs(file:UploadFile):
     f.close() 
     return name
 
-#Post-запросы для паспортов
+#запросы для выдачи паспортов
 
 
-@app.post("/get_ocp_pass")
-def get_ocp_pass(serialNumber:str):
+@app.post("/receive_ocp_pass")
+def receive_ocp_pass(serialNumber:str):
     #создаем папки, если они не созданы
     if not os.path.exists(PATH_OCP_PASS):
         os.mkdir(PATH_OCP_PASS)

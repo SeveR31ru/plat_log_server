@@ -24,6 +24,11 @@ def generate_start_html():
     '''
     Функция генерации стартовой страницы с строками поиска плат
     '''
+    if not os.path.exists(PATH_OCP):
+        os.mkdir(PATH_OCP)
+    if not os.path.exists(PATH_TOFINO):
+        os.mkdir(PATH_TOFINO)
+    
     ocp_codes=os.listdir(PATH_OCP)
     tofino_codes=os.listdir(PATH_TOFINO)
     template = jinja2.Template("""
@@ -106,6 +111,10 @@ def generate_fast_ocp_logs(ocp_code:str):
                 status='failed'
                 break
         log_cut_name.append(status)
+    passport=nt.read_ocp_pass_note(ocp_code)
+    
+    
+    
     template=jinja2.Template("""
     <!DOCTYPE html>
     <html lang="en">
@@ -123,7 +132,7 @@ def generate_fast_ocp_logs(ocp_code:str):
         </header>
         <main>
             <table border="1" table class="table_sort">
-            <caption>Таблица логов платы {{code}}</caption>
+            <caption>Таблица логов платы {{code}}(номер паспорта: {{passport}} )</caption>
             <thead>
                     <tr>
                     <th>Вид теста</th>
@@ -227,7 +236,8 @@ def generate_fast_ocp_logs(ocp_code:str):
     """)
     html = template.render(code=ocp_code,
                             list_of_cut_names=list_of_cut_names,
-                            list_of_notes=list_of_notes)
+                            list_of_notes=list_of_notes,
+                            passport=passport)
     save=open(f'web/{ocp_code}.html','w')
     save.write(html)
     save.close()
