@@ -83,7 +83,3 @@ def read_ocp_pass_note(serialNumber:str):
             break
     return passport
 
-
-if __name__=="__main__":
-        add_ocp_pass_note("DEADNOTE",'azaza.bin')
-        print(read_ocp_pass_note("DEADNOTE"))

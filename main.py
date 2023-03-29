@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, Body
 from fastapi.templating import Jinja2Templates
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 import uvicorn
 import configparser
 import os
@@ -29,6 +30,7 @@ if not os.path.exists("web"):
     os.mkdir("web")
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="web")
 
 #Get-запросы
@@ -134,6 +136,6 @@ def receive_ocp_pass(serialNumber:str):
     pass_file_path=f'{PATH_USED_OCP_PASS}/{pass_file_name}'
     res = FileResponse(pass_file_path, media_type='application/octet-stream', filename=pass_file_name)
     return res
-
+    
 uvicorn.run(app, host=host, port=port)
 

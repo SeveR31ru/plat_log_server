@@ -1,8 +1,7 @@
-/web/*.html
 /__pycache__/
 *.csv
 /OCP_pass
 /used_OCP_pass
 /ocp_logs
 /tofino_logs
-/web
+/web/*.html
