@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, Body
 from fastapi.templating import Jinja2Templates
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 import uvicorn
 import configparser
 import os
@@ -29,6 +30,7 @@ if not os.path.exists("web"):
     os.mkdir("web")
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="web")
 
 #Get-запросы

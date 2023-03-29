@@ -35,6 +35,7 @@ def generate_start_html():
     <!DOCTYPE html>
     <html lang="en">
     <head>
+        <link href="/static/style.css" rel="stylesheet">
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,11 +48,10 @@ def generate_start_html():
             </h1>
         </header>
         <main>
-            <form action="/get_fast_ocp_logs" method="get" target=_blank>
+            <form action="/get_fast_ocp_logs" method="get" target=_self>
                 <label>Получение логов OCP</label>
                 <p></p>
                 <input list="plats_ocp" placeholder="Введите номер"name=ocp_code >
-                
                 <datalist id="plats_ocp">
                     <option value="">Выберите значение</option>
                     {% for code in ocp_codes %}
@@ -60,10 +60,10 @@ def generate_start_html():
                 </datalist>
 
                 <b1></b1>
-                <input type="submit" value="Посмотреть таблицу логов этой платы">
+                <input type="submit" class="purple_button" value="Посмотреть таблицу логов этой платы">
             </form>
             <p></p>
-            <form action="/get_fast_tofino_logs" method="get" target=_blank>
+            <form action="/get_fast_tofino_logs" method="get" target=_self>
                 <label>Получение логов TOFINO</label>
                 <p></p>
                 <input list="plats_tofino" placeholder="Введите номер"name=tofino_code >
@@ -74,10 +74,12 @@ def generate_start_html():
                     <option value="{{code}}"></option>
                     {% endfor %}
                 </datalist>
-        
                 <b1></b1>
-                <input type="submit" value="Посмотреть таблицу логов этой платы">
+                <input type="submit" class="purple_button" value="Посмотреть таблицу логов этой платы">
             </form>
+            <r></r>
+            <label>Временные сообщения</label>
+            <r>Если введёте пустое поле-выбьет ошибку, проверяйте заполнение</r>
         </main>
     </body>
     </html>
@@ -119,6 +121,7 @@ def generate_fast_ocp_logs(ocp_code:str):
     <!DOCTYPE html>
     <html lang="en">
     <head>
+        <link href="/static/style.css" rel="stylesheet">
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -131,6 +134,11 @@ def generate_fast_ocp_logs(ocp_code:str):
             </h1>
         </header>
         <main>
+            <form action="/" method="get" target=_self>
+                <input type="submit" class="purple_button" value="Вернуться на главную страницу">     
+            </form
+            <r></r>
+            
             <table border="1" table class="table_sort">
             <caption>Таблица логов платы {{code}}(номер паспорта: {{passport}} )</caption>
             <thead>
@@ -146,7 +154,11 @@ def generate_fast_ocp_logs(ocp_code:str):
                 <tr>
                     <th>{{name[0]}}</th>
                     <th>{{name[2]}}</th>
-                    <th>{{name[3]}}</th>
+                    {% if name[3]=="failed" %}
+                        <th class="text-red">{{name[3]}}</th>
+                    {% else %}
+                        <th class="text-green">{{name[3]}}</th>
+                    {% endif %}
                     <th>
                         <form action="/get_big_ocp_log" method="get" target=_blank>
                         <button value="{{[name[0],name[1],name[2]]|join('_')}}" name="log_path" type="submit">Посмотреть этот лог подробнее</button>
@@ -176,10 +188,9 @@ def generate_fast_ocp_logs(ocp_code:str):
             </table>
             <p><textarea name="note" cols="50" rows="10" id="note" ></textarea></p>
             <input type="text" name="code" value="{{code}}" id="code" hidden readonly>
-            <button onclick="send()" >Отправить заметку об этой плате></button>    
+            <button onclick="send()" >Отправить заметку об этой плате</button>    
             <script>
             async function send(){
-                    // получаем введеное в поле имя и возраст
                     const note = document.getElementById("note").value;
                     const code = document.getElementById("code").value;
           
@@ -308,6 +319,7 @@ def generate_fast_tofino_logs(tofino_code:str):
     <!DOCTYPE html>
     <html lang="en">
     <head>
+        <link href="/static/style.css" rel="stylesheet">
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -320,6 +332,11 @@ def generate_fast_tofino_logs(tofino_code:str):
             </h1>
         </header>
         <main>
+            <form action="/" method="get" target=_self>
+                <input type="submit" class="purple_button" value="Вернуться на главную страницу">     
+            </form
+            <r></r>
+            
             <table border="1" table class="table_sort">
             <caption>Таблица логов платы {{code}}</caption>
             <thead>
@@ -335,7 +352,11 @@ def generate_fast_tofino_logs(tofino_code:str):
                 <tr>
                     <th>{{name[0]}}</th>
                     <th>{{name[2]}}</th>
-                    <th>{{name[3]}}</th>
+                    {% if name[3]=="failed" %}
+                        <th class="text-red">{{name[3]}}</th>
+                    {% else %}
+                        <th class="text-green">{{name[3]}}</th>
+                    {% endif %}
                     <th>
                         <form action="/get_big_tofino_log" method="get" target=_blank>
                         <button value="{{[name[0],name[1],name[2]]|join('_')}}" name="log_path" type="submit">Посмотреть этот лог подробнее</button>
@@ -368,7 +389,6 @@ def generate_fast_tofino_logs(tofino_code:str):
             <button onclick="send()" >Отправить заметку об этой плате</button>    
             <script>
             async function send(){
-                    // получаем введеное в поле имя и возраст
                     const note = document.getElementById("note").value;
                     const code = document.getElementById("code").value;
           
