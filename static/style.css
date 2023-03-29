@@ -1,11 +1,17 @@
 table{
     margin: 40px 0;
-    }
+    table-layout: fixed;
+    width: 35%;
+  }
 
 
 thead {
     background-color:#8e44ad;
     color: white;
+}
+
+td {
+    word-wrap:break-word;
 }
 
 button {
