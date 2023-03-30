@@ -3,6 +3,7 @@ import jinja2
 import os
 import note as nt
 import configparser
+import passport as passp
 
 try:
     # получение конфигов
@@ -114,10 +115,14 @@ def generate_fast_ocp_logs(ocp_code:str):
                 status='failed'
                 break
         log_cut_name.append(status)
-    passport=nt.read_ocp_pass_note(ocp_code)
-    
-    
-    
+    try:
+        pass_mac=passp.get_mac(ocp_code)
+    except:
+        pass_mac="не выдан"
+    try:
+        pass_serial=passp.get_serial(ocp_code)
+    except:
+        pass_serial="не выдан"
     template=jinja2.Template("""
     <!DOCTYPE html>
     <html lang="en">
@@ -139,9 +144,11 @@ def generate_fast_ocp_logs(ocp_code:str):
                 <input type="submit" class="purple_button" value="Вернуться на главную страницу">     
             </form
             <r></r>
-            
+            <p>Логи платы {{code}}</p>
+            <p>Выданный мак-адрес: {{pass_mac}}</p>
+            <p>Выданный серийник вместе с мак-адресом: {{pass_serial}}</p>
             <table border="1" table class="table_sort">
-            <caption>Таблица логов платы {{code}}(номер паспорта: {{passport}} )</caption>
+            <caption>Таблица логов платы {{code}}</caption>
             <thead>
                     <tr>
                     <th>Вид теста</th>
@@ -249,7 +256,8 @@ def generate_fast_ocp_logs(ocp_code:str):
     html = template.render(code=ocp_code,
                             list_of_cut_names=list_of_cut_names,
                             list_of_notes=list_of_notes,
-                            passport=passport)
+                            pass_mac=pass_mac,
+                            pass_serial=pass_serial)
     save=open(f'web/{ocp_code}.html','w')
     save.write(html)
     save.close()
