@@ -1,0 +1,9 @@
+fastapi
+jinja2
+starlette
+unicorn
+treepoem
+python-multipart
+Pillow
+pandas
+openpyxl
