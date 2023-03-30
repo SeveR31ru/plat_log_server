@@ -8,7 +8,7 @@ import os
 from datamatrix import datamatrix_create
 import generate_html 
 import note as nt
-import passport as passport
+import passport as passp
 
 
 try:
@@ -49,7 +49,10 @@ def get_datamatrix(datamatrix_data: str):
 
 @app.get("/get_fast_ocp_logs")
 def get_fast_ocp_logs(ocp_code:str,request: Request):
-    generate_html.generate_fast_ocp_logs(ocp_code)
+    try:
+        generate_html.generate_fast_ocp_logs(ocp_code)
+    except:
+        raise HTTPException(status_code=404, detail="Нет платы OCP с таким номером в системе")
     return templates.TemplateResponse(f"{ocp_code}.html",{"request": request})
 
 @app.get("/get_big_ocp_log")
@@ -59,8 +62,12 @@ def get_big_ocp_log(log_path:str,request:Request):
 
 @app.get("/get_fast_tofino_logs")
 def get_fast_ocp_logs(tofino_code:str,request: Request):
-    generate_html.generate_fast_tofino_logs(tofino_code)
+    try:
+        generate_html.generate_fast_tofino_logs(tofino_code)
+    except:
+         raise HTTPException(status_code=404, detail="Нет платы TOFINO с таким номером в системе")
     return templates.TemplateResponse(f"{tofino_code}.html",{"request": request})
+
 @app.get("/get_big_tofino_log")
 def get_big_ocp_log(log_path:str,request:Request):
     generate_html.generate_big_tofino_log(log_path)
@@ -118,9 +125,9 @@ def send_tofino_logs(file:UploadFile):
 #запрос для выдачи паспорта OCP
 
 @app.post("/give_ocp_mac")
-def give_ocp_pass(serialNumber:str):
+def give_ocp_pass_mac(serialNumber:str):
     #создаем папки, если они не созданы
-    mac=passport.give_mac(serialNumber)
+    mac=passp.give_mac(serialNumber)
     if mac  == 2:
         raise HTTPException(status_code=404, detail="Folder is empty")
     elif mac ==2:
@@ -130,6 +137,14 @@ def give_ocp_pass(serialNumber:str):
     elif mac ==4:
         raise HTTPException(status_code=404, detail="This code already have a mac")
     return mac
+
+@app.post("/give_serial_by_ocp")
+def give_ocp_pass_serial(serialNumber:str):
+    try:
+        mac_serial=passp.get_serial(serialNumber)
+    except:
+        raise HTTPException(status_code=404, detail="This OCP dont have mac_serial,give him mac first")
+    return mac_serial
 
 '''
 @app.post("/send_platform")
