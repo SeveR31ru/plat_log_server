@@ -2,6 +2,7 @@ import configparser
 import jinja2
 import os
 import note as nt
+import configparser
 
 try:
     # получение конфигов
@@ -78,7 +79,7 @@ def generate_start_html():
                 <input type="submit" class="purple_button" value="Посмотреть таблицу логов этой платы">
             </form>
             <r></r>
-            <label>Временные сообщения</label>
+            <h1>Временные сообщения</h1>
             <r>Если введёте пустое поле-выбьет ошибку, проверяйте заполнение</r>
         </main>
     </body>

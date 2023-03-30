@@ -1,6 +1,5 @@
-from fastapi import FastAPI, Request, Body
+from fastapi import FastAPI, Request, Body,HTTPException,UploadFile, File
 from fastapi.templating import Jinja2Templates
-from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 import uvicorn
@@ -9,6 +8,7 @@ import os
 from datamatrix import datamatrix_create
 import generate_html 
 import note as nt
+import passport as passport
 
 
 try:
@@ -21,7 +21,7 @@ try:
     PATH_OCP=str(config["COMMON"]["path_ocp"])
     PATH_TOFINO=str(config["COMMON"]["path_tofino"])
     PATH_OCP_PASS=str(config["COMMON"]["path_ocp_passports"])
-    PATH_USED_OCP_PASS=str(config["COMMON"]["path_used_passports"])
+    PATH_PLATFORM=str(config["COMMON"]["path_platform"])
 
 except:
     pass
@@ -115,27 +115,28 @@ def send_tofino_logs(file:UploadFile):
     f.close() 
     return name
 
-#запросы для выдачи паспортов
+#запрос для выдачи паспорта OCP
 
-
-@app.post("/receive_ocp_pass")
-def receive_ocp_pass(serialNumber:str):
+@app.post("/give_ocp_mac")
+def give_ocp_pass(serialNumber:str):
     #создаем папки, если они не созданы
-    if not os.path.exists(PATH_OCP_PASS):
-        os.mkdir(PATH_OCP_PASS)
-    if not os.path.exists(PATH_USED_OCP_PASS):
-        os.mkdir(PATH_USED_OCP_PASS)
-    #проверяем, есть ли паспорта
-    list_os_passports=os.listdir(PATH_OCP_PASS)
-    if not list_os_passports:
-        return('Папка с паспортами пуста')
-    pass_file_name=list_os_passports[0]
-    #перемещаем взятый паспорт в папку использованных
-    os.rename(f'{PATH_OCP_PASS}/{pass_file_name}', f'{PATH_USED_OCP_PASS}/{pass_file_name}')
-    nt.add_ocp_pass_note(serialNumber, pass_file_name)
-    pass_file_path=f'{PATH_USED_OCP_PASS}/{pass_file_name}'
-    res = FileResponse(pass_file_path, media_type='application/octet-stream', filename=pass_file_name)
-    return res
-    
+    mac=passport.give_mac(serialNumber)
+    if mac  == 2:
+        raise HTTPException(status_code=404, detail="Folder is empty")
+    elif mac ==2:
+        raise HTTPException(status_code=404, detail="Cannot open table")
+    elif mac== 3:
+        raise HTTPException(status_code=404, detail="Table is empty")
+    elif mac ==4:
+        raise HTTPException(status_code=404, detail="This code already have a mac")
+    return mac
+
+'''
+@app.post("/send_platform")
+def send_platform(ocp_code:str,tofino_code:str):
+    zero=0
+'''
+
+
 uvicorn.run(app, host=host, port=port)
 
