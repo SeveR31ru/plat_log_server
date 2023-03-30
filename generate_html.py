@@ -111,7 +111,7 @@ def generate_fast_ocp_logs(ocp_code:str):
         log=open(f'{PATH_OCP}/{ocp_code}/{log_name}')
         lines=log.readlines()
         for line in lines:
-            if line.find('FAILED')!=-1 or line.find('failed')!=-1 :
+            if line.find('INMYS_FAILED')!=-1 :
                 status='failed'
                 break
         log_cut_name.append(status)
@@ -320,7 +320,7 @@ def generate_fast_tofino_logs(tofino_code:str):
         log=open(f'{PATH_TOFINO}/{tofino_code}/{log_name}')
         lines=log.readlines()
         for line in lines:
-            if line.find('FAILED')!=-1 or line.find('failed')!=-1 :
+            if line.find('INMYS_FAILED')!=-1 :
                 status='failed'
                 break
         log_cut_name.append(status)
