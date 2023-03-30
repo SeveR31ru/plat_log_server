@@ -10,8 +10,19 @@ thead {
     color: white;
 }
 
+h1{
+  font-weight: normal;
+
+}
+
+th{
+  font-weight: normal;
+}
+
+
 td {
-    word-wrap:break-word;
+  font-weight: normal;  
+  word-wrap:break-word;
 }
 
 button {
