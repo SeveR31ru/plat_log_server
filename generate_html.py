@@ -101,7 +101,6 @@ def generate_fast_ocp_logs(ocp_code:str):
                             list_of_notes=list_of_notes,
                             pass_mac=pass_mac,
                             pass_serial=pass_serial)
-    print(html)
     save=open(f'web/{ocp_code}.html','w')#
     save.write(html)
     save.close()
