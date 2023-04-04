@@ -31,14 +31,14 @@ if not os.path.exists("web"):
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="web")
+generated_templates = Jinja2Templates(directory="web")
 
 #Get-запросы
 
 @app.get("/")
 def main(request: Request):
     generate_html.generate_start_html()
-    return templates.TemplateResponse("main.html", {"request": request})
+    return generated_templates.TemplateResponse("main.html", {"request": request})
 
 @app.get("/get_datamatrix")
 def get_datamatrix(datamatrix_data: str):
@@ -53,12 +53,12 @@ def get_fast_ocp_logs(ocp_code:str,request: Request):
         generate_html.generate_fast_ocp_logs(ocp_code)
     except:
         raise HTTPException(status_code=404, detail="Нет платы OCP с таким номером в системе")
-    return templates.TemplateResponse(f"{ocp_code}.html",{"request": request})
+    return generated_templates.TemplateResponse(f"{ocp_code}.html",{"request": request})
 
 @app.get("/get_big_ocp_log")
 def get_big_ocp_log(log_path:str,request:Request):
     generate_html.generate_big_ocp_log(log_path)
-    return templates.TemplateResponse(f"{log_path}.html",{"request":request})
+    return generated_templates.TemplateResponse(f"{log_path}.html",{"request":request})
 
 @app.get("/get_fast_tofino_logs")
 def get_fast_ocp_logs(tofino_code:str,request: Request):
@@ -66,12 +66,12 @@ def get_fast_ocp_logs(tofino_code:str,request: Request):
         generate_html.generate_fast_tofino_logs(tofino_code)
     except:
          raise HTTPException(status_code=404, detail="Нет платы TOFINO с таким номером в системе")
-    return templates.TemplateResponse(f"{tofino_code}.html",{"request": request})
+    return generated_templates.TemplateResponse(f"{tofino_code}.html",{"request": request})
 
 @app.get("/get_big_tofino_log")
 def get_big_ocp_log(log_path:str,request:Request):
     generate_html.generate_big_tofino_log(log_path)
-    return templates.TemplateResponse(f"{log_path}.html",{"request":request})
+    return generated_templates.TemplateResponse(f"{log_path}.html",{"request":request})
 
 
 '''

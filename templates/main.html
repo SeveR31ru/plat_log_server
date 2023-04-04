@@ -1,0 +1,50 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <link href="/static/style.css" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Work Logs</title>
+    </head>
+    <body>
+        <header>
+            <h1>
+                Страница для работы с логами(в разработке)
+            </h1>
+        </header>
+        <main>
+            <form action="/get_fast_ocp_logs" method="get" target=_self>
+                <label>Получение логов OCP</label>
+                <p></p>
+                <input list="plats_ocp" placeholder="Введите номер"name=ocp_code >
+                <datalist id="plats_ocp">
+                    <option value="">Выберите значение</option>
+                    {% for code in ocp_codes %}
+                    <option value="{{code}}"></option>
+                    {% endfor %}
+                </datalist>
+                <b1></b1>
+                <input type="submit" class="purple_button" value="Посмотреть таблицу логов этой платы">
+            </form>
+            <p></p>
+            <form action="/get_fast_tofino_logs" method="get" target=_self>
+                <label>Получение логов TOFINO</label>
+                <p></p>
+                <input list="plats_tofino" placeholder="Введите номер"name=tofino_code >
+                
+                <datalist id="plats_tofino">
+                    <option value="">Выберите значение</option>
+                    {% for code in tofino_codes %}
+                    <option value="{{code}}"></option>
+                    {% endfor %}
+                </datalist>
+                <b1></b1>
+                <input type="submit" class="purple_button" value="Посмотреть таблицу логов этой платы">
+            </form>
+            <r></r>
+            <h1>Временные сообщения</h1>
+            <r>Если введёте пустое поле-выбьет ошибку, проверяйте заполнение</r>
+        </main>
+    </body>
+    </html>
