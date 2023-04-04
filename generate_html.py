@@ -28,10 +28,6 @@ def generate_start_html():
     '''
     Функция генерации стартовой страницы с строками поиска плат
     '''
-    if not os.path.exists(PATH_OCP):
-        os.mkdir(PATH_OCP)
-    if not os.path.exists(PATH_TOFINO):
-        os.mkdir(PATH_TOFINO)
     
     ocp_codes=os.listdir(PATH_OCP)
     tofino_codes=os.listdir(PATH_TOFINO)
@@ -41,14 +37,40 @@ def generate_start_html():
     save.write(html)
     save.close()
 
+
+def generate_list_of_devices():
+    
+    result_ocp=[]
+    result_tofino=[]
+    ocp_codes=os.listdir(PATH_OCP)
+    for ocp_code in ocp_codes:
+        append_list=[]
+        logs_number=len(os.listdir(f"{PATH_OCP}/{ocp_code}"))
+        append_list=[ocp_code,logs_number]
+        result_ocp.append(append_list)
+    tofino_codes=os.listdir(PATH_TOFINO)
+    for tofino_code in tofino_codes:
+        append_list=[]
+        logs_number=len(os.listdir(f"{PATH_TOFINO}/{tofino_code}"))
+        append_list=[tofino_code,logs_number]
+        result_tofino.append(append_list)
+    template=env.get_template("list_of_devices.html")
+    html=template.render(ocp_names=result_ocp,tofino_names=result_tofino)
+    save=open('web/list_of_devices.html','w')
+    save.write(html)
+    save.close()
+
+
+
 #OCP-функции
 
 def generate_fast_ocp_logs(ocp_code:str):
     '''
-    Функция генерации html-страницы одного лога OCP, чтобы его можно было прочитать
-
+    Функция генерации таблицы логов и заметок для выбранной платы OCP
+    
     аргументы:
-    @log_path=полное имя файла,из которого впоследние вынимается номер платы для поиска папки
+    @ocp_code-номер OCP-платы
+    
     '''
     
     ocp_logs_files=os.listdir(f"{PATH_OCP}/{ocp_code}")
@@ -157,4 +179,8 @@ def generate_big_tofino_log(log_path:str):
     save.write(html)
     save.close()
 
+
+
+if __name__=="__main__":
+    generate_list_of_devices()
 

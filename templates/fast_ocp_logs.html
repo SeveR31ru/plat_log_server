@@ -16,12 +16,16 @@
         <main>
             <form action="/" method="get" target=_self>
                 <input type="submit" class="purple_button" value="Вернуться на главную страницу">     
-            </form
-            <r></r>
+            </form>
+            <p></p>
+            <form action="/get_list_of_devices" method="get" target=_self>
+                <input type="submit" class="purple_button" value="Вернуться на страницу со списком устройств">     
+            </form>
+            <p></p>
             <p>Логи платы {{code}}</p>
             <p>Выданный мак-адрес: {{pass_mac}}</p>
             <p>Выданный серийник вместе с мак-адресом: {{pass_serial}}</p>
-            <table border="1" table class="table_sort">
+            <table table class="table_sort">
             <caption>Таблица логов платы {{code}}</caption>
             <thead>
                     <tr>
@@ -44,13 +48,13 @@
                     <th>
                         <form action="/get_big_ocp_log" method="get" target=_blank>
                         <button value="{{[name[0],name[1],name[2]]|join('_')}}" name="log_path" type="submit">Посмотреть этот лог подробнее</button>
-                        </form
+                        </form>
                     </th>
                 </tr>
                 {% endfor %}
             </tbody>
             </table>
-            <table border="1" table class="table_sort">
+            <table table class="table_sort">
                 <caption>Таблица заметок для этой платы</caption>
                 <thead>
                         <tr>

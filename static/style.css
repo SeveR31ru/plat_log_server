@@ -2,6 +2,7 @@ table{
     margin: 40px 0;
     table-layout: fixed;
     width: 50%;
+    border: 1px solid;
   }
 
 
@@ -17,12 +18,14 @@ h1{
 
 th{
   font-weight: normal;
+  border: 1px solid;
 }
 
 
 td {
   font-weight: normal;  
   word-wrap:break-word;
+  border: 1px solid;
 }
 
 button {

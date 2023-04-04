@@ -24,7 +24,7 @@
                     <option value="{{code}}"></option>
                     {% endfor %}
                 </datalist>
-                <b1></b1>
+                <p></p>
                 <input type="submit" class="purple_button" value="Посмотреть таблицу логов этой платы">
             </form>
             <p></p>
@@ -39,12 +39,17 @@
                     <option value="{{code}}"></option>
                     {% endfor %}
                 </datalist>
-                <b1></b1>
+                <p></p>
                 <input type="submit" class="purple_button" value="Посмотреть таблицу логов этой платы">
             </form>
-            <r></r>
+            <form action="/get_list_of_devices" method="get" target=_self>
+                <label>Получение спика всех девайсов в системе</label>
+                <p></p>
+                <input type="submit" class="purple_button" value="Посмотреть весь список">
+            </form>
+
             <h1>Временные сообщения</h1>
-            <r>Если введёте пустое поле-выбьет ошибку, проверяйте заполнение</r>
+            Если введёте пустое поле-выбьет ошибку, проверяйте заполнение
         </main>
     </body>
     </html>

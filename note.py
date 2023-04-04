@@ -10,9 +10,7 @@ def add_note(code:str,note:str):
     @code- номер платы,для которой добавляется заметка. Коды уникальны, пересечений быть не должно. Может быть больше одной заметки для одной платы
     @note- сама заметка любого формата
     """
-    if not os.path.exists("notes.csv"):
-        create_note_table=pd.DataFrame(columns=["code","note","time"])
-        create_note_table.to_csv("notes.csv",index= False)
+    
     time= str(datetime.datetime.now())
     note_table=pd.read_csv("notes.csv")
     note_table.loc[ len(note_table.index )] = [code,note,time]
@@ -29,9 +27,7 @@ def read_note(code:str):
     @code-номер платы, для которой нужно получить все заметки
 
     """
-    if not os.path.exists("notes.csv"):
-        create_note_table=pd.DataFrame(columns=["code","note","time"])
-        create_note_table.to_csv("notes.csv",index= False)
+
     note_table=pd.read_csv("notes.csv")
     result_list=[]
     for i, row in note_table.iterrows():
