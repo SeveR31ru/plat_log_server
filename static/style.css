@@ -1,3 +1,11 @@
+body{
+  background-image: url("images/inmys.jpg");
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-size: 200px,200px;
+
+}
+
 table{
     margin: 40px 0;
     table-layout: fixed;
@@ -7,7 +15,7 @@ table{
 
 
 thead {
-    background-color:#8e44ad;
+    background-color:#07759a;
     color: white;
 }
 
@@ -29,9 +37,9 @@ td {
 }
 
 button {
-    border-color: #8e44ad;
+    border-color: #07759a;
     border-radius: 0;
-    color: #8e44ad;
+    color: #07759a;
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -48,7 +56,7 @@ button {
             transform: translateX(-50%);
     width: 0;
     height: 100%;
-    background: #8e44ad;
+    background: #07759a;
     z-index: -1;
     -webkit-transition: width 150ms ease-in-out;
     transition: width 150ms ease-in-out;
@@ -60,17 +68,24 @@ button {
     width: 110%;
   }
 
-  .purple_button {
-    border-color: #8e44ad;
+  
+  
+  
+  
+  
+  
+  
+  .input_button {
+    border-color: #07759a;
     border-radius: 0;
-    color: #8e44ad;
+    color: #07759a;
     position: relative;
     overflow: hidden;
     z-index: 1;
     -webkit-transition: color 150ms ease-in-out;
     transition: color 150ms ease-in-out;
   }
-  .purple_button:after {
+  .input_button:after {
     content:'';
     position: absolute;
     display: block;
@@ -80,22 +95,17 @@ button {
             transform: translateX(-50%);
     width: 0;
     height: 100%;
-    background: #8e44ad;
+    background: #07759a;
     z-index: -1;
     -webkit-transition: width 150ms ease-in-out;
     transition: width 150ms ease-in-out;
   }
-  .purple_button:hover {
+  .input_button:hover {
     color: #fff;
   }
-  .purple_button:hover:after {
+  .input_button:hover:after {
     width: 110%;
   }
-
-
-
-
-
 
 
 .text-red{
