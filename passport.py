@@ -29,12 +29,7 @@ def give_mac(serialNumber:str):
     @4- этому serialNumber уже присвоен мак
     
     """
-    
-    if not os.path.exists("ocp_given_passports.csv"):
-        create_used_pass_table=pd.DataFrame(columns=["ocp_number","mac","pass_serial_number"])
-        create_used_pass_table.to_csv("ocp_given_passports.csv",index= False)
-    if not os.path.exists(PATH_OCP_PASS):
-        os.mkdir(PATH_OCP_PASS)  
+      
     if len(os.listdir(PATH_OCP_PASS))==0:
         #print("Папка пуста")
         return 1
@@ -81,8 +76,4 @@ def get_serial(serialNumber:str):
     serial_mac=serial_cleared_row[2]
     return serial_mac
 
-
-if __name__=="__main__":
-    print(get_mac("FACEDEAD"))
-    print(get_serial("FACEDEAD"))
 

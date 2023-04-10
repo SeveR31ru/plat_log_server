@@ -22,6 +22,18 @@ try:
     PATH_TOFINO=str(config["COMMON"]["path_tofino"])
     PATH_OCP_PASS=str(config["COMMON"]["path_ocp_passports"])
     PATH_PLATFORM=str(config["COMMON"]["path_platform"])
+    if not os.path.exists(PATH_OCP):
+        os.mkdir(PATH_OCP)
+    if not os.path.exists(PATH_TOFINO):
+        os.mkdir(PATH_TOFINO)
+    if not os.path.exists("notes.csv"):
+        create_note_table=pd.DataFrame(columns=["code","note","time"])
+        create_note_table.to_csv("notes.csv",index= False)
+    if not os.path.exists("ocp_given_passports.csv"):
+        create_used_pass_table=pd.DataFrame(columns=["ocp_number","mac","pass_serial_number"])
+        create_used_pass_table.to_csv("ocp_given_passports.csv",index= False)
+    if not os.path.exists(PATH_OCP_PASS):
+        os.mkdir(PATH_OCP_PASS)
 
 except:
     pass
@@ -31,14 +43,14 @@ if not os.path.exists("web"):
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="web")
+generated_templates = Jinja2Templates(directory="web")
 
 #Get-запросы
 
 @app.get("/")
 def main(request: Request):
     generate_html.generate_start_html()
-    return templates.TemplateResponse("main.html", {"request": request})
+    return generated_templates.TemplateResponse("main.html", {"request": request})
 
 @app.get("/get_datamatrix")
 def get_datamatrix(datamatrix_data: str):
@@ -53,12 +65,12 @@ def get_fast_ocp_logs(ocp_code:str,request: Request):
         generate_html.generate_fast_ocp_logs(ocp_code)
     except:
         raise HTTPException(status_code=404, detail="Нет платы OCP с таким номером в системе")
-    return templates.TemplateResponse(f"{ocp_code}.html",{"request": request})
+    return generated_templates.TemplateResponse(f"{ocp_code}.html",{"request": request})
 
 @app.get("/get_big_ocp_log")
 def get_big_ocp_log(log_path:str,request:Request):
     generate_html.generate_big_ocp_log(log_path)
-    return templates.TemplateResponse(f"{log_path}.html",{"request":request})
+    return generated_templates.TemplateResponse(f"{log_path}.html",{"request":request})
 
 @app.get("/get_fast_tofino_logs")
 def get_fast_ocp_logs(tofino_code:str,request: Request):
@@ -66,12 +78,17 @@ def get_fast_ocp_logs(tofino_code:str,request: Request):
         generate_html.generate_fast_tofino_logs(tofino_code)
     except:
          raise HTTPException(status_code=404, detail="Нет платы TOFINO с таким номером в системе")
-    return templates.TemplateResponse(f"{tofino_code}.html",{"request": request})
+    return generated_templates.TemplateResponse(f"{tofino_code}.html",{"request": request})
 
 @app.get("/get_big_tofino_log")
 def get_big_ocp_log(log_path:str,request:Request):
     generate_html.generate_big_tofino_log(log_path)
-    return templates.TemplateResponse(f"{log_path}.html",{"request":request})
+    return generated_templates.TemplateResponse(f"{log_path}.html",{"request":request})
+
+@app.get("/get_list_of_devices")
+def get_list_of_devices(request: Request):
+    generate_html.generate_list_of_devices()
+    return generated_templates.TemplateResponse(f"list_of_devices.html",{"request":request})
 
 
 '''
