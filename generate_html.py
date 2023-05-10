@@ -163,7 +163,7 @@ def generate_start_html():
 def generate_list_of_devices():
     result_ocp = []
     result_tofino = []
-    result_controlpass=[]
+    result_controlpass = []
     ocp_codes = os.listdir(PATH_OCP)
     for ocp_code in ocp_codes:
         try:
@@ -182,17 +182,19 @@ def generate_list_of_devices():
             result_tofino.append(append_list)
         except:
             continue
-    controlpass_codes=os.listdir(PATH_CONTROLPASS)
+    controlpass_codes = os.listdir(PATH_CONTROLPASS)
     for controlpass_code in controlpass_codes:
         try:
             append_list = []
-            logs_number = len(os.listdir(f"{PATH_CONTROLPASS}/{controlpass_code}"))
+            logs_number = len(os.listdir(
+                f"{PATH_CONTROLPASS}/{controlpass_code}"))
             append_list = [controlpass_code, logs_number]
             result_controlpass.append(append_list)
         except:
             continue
     template = env.get_template("list_of_devices.html")
-    html = template.render(ocp_names=result_ocp, tofino_names=result_tofino,controlpass_names=result_controlpass)
+    html = template.render(
+        ocp_names=result_ocp, tofino_names=result_tofino, controlpass_names=result_controlpass)
     return html
 
 

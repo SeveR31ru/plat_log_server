@@ -45,7 +45,9 @@ except:
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Get-запросы
+# GET-ЗАПРОСЫ
+
+# Общие get-запросы
 
 
 @app.get("/")
@@ -59,39 +61,7 @@ def get_datamatrix(datamatrix_data: str):
     datamatrix_create(datamatrix_data)
     return {"datamatrix_data ": datamatrix_data}
 
-# Get-запросы для формирования лог-страниц
 
-
-@app.get("/get_fast_ocp_logs")
-def get_fast_ocp_logs(ocp_code: str):
-    try:
-        html = generate_html.generate_fast_ocp_logs(ocp_code)
-    except:
-        text="Нет платы OCP с таким номером в системе"
-        html=generate_html.generate_answer(text)
-    return HTMLResponse(html)
-
-
-@app.get("/get_fast_tofino_logs")
-def get_fast_ocp_logs(tofino_code: str):
-    try:
-        html = generate_html.generate_fast_tofino_logs(tofino_code)
-    except:
-        text="Нет платы TOFINO с таким номером в системе"
-        html=generate_html.generate_answer(text)
-    return HTMLResponse(html)
-
-
-@app.get("/get_fast_controlpass_logs")
-def get_fast_controlpass_logs(controlpass_code: str):
-    try:
-        html = generate_html.generate_fast_controlpass_logs(controlpass_code)
-    except:
-        text="Нет Controlpass с таким номером в системе"
-        html=generate_html.generate_answer(text)
-    return HTMLResponse(html)
-
-#общие get-запросы
 @app.get("/get_list_of_devices")
 def get_list_of_devices():
     html = generate_html.generate_list_of_devices()
@@ -101,6 +71,38 @@ def get_list_of_devices():
 @app.get("/get_big_log")
 def get_big_lig(log_path: str, type: int):
     html = generate_html.generate_big_log(log_path, type)
+    return HTMLResponse(html)
+
+# Get-запросы для формирования лог-страниц
+
+
+@app.get("/get_fast_ocp_logs")
+def get_fast_ocp_logs(ocp_code: str):
+    try:
+        html = generate_html.generate_fast_ocp_logs(ocp_code)
+    except:
+        text = "Нет платы OCP с таким номером в системе"
+        html = generate_html.generate_answer(text)
+    return HTMLResponse(html)
+
+
+@app.get("/get_fast_tofino_logs")
+def get_fast_ocp_logs(tofino_code: str):
+    try:
+        html = generate_html.generate_fast_tofino_logs(tofino_code)
+    except:
+        text = "Нет платы TOFINO с таким номером в системе"
+        html = generate_html.generate_answer(text)
+    return HTMLResponse(html)
+
+
+@app.get("/get_fast_controlpass_logs")
+def get_fast_controlpass_logs(controlpass_code: str):
+    try:
+        html = generate_html.generate_fast_controlpass_logs(controlpass_code)
+    except:
+        text = "Нет Controlpass с таким номером в системе"
+        html = generate_html.generate_answer(text)
     return HTMLResponse(html)
 
 
@@ -113,9 +115,10 @@ def getLogs(name:str):
     return res
 '''
 
-##Post-запросы
+# POST-ЗАПРОСЫ
 
 
+# запросы для работы с заметками
 @app.post("/send_note")
 def send_notes(data=Body()):
     code = data["code"]
