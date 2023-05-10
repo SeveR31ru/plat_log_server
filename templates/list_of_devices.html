@@ -40,7 +40,7 @@
                     </tr>
                     {% endfor %}
                 </tbody>
-                </table> 
+            </table> 
             <p></p>
             <table table class="table_sort">
                 <caption>Таблица всех TOFINO-устройств</caption>
@@ -64,7 +64,31 @@
                     </tr>
                     {% endfor %}
                 </tbody>
-                </table> 
+            </table> 
+
+                <table table class="table_sort">
+                    <caption>Таблица всех Controlpass</caption>
+                    <thead>
+                            <tr>
+                            <th>Номер платы</th>
+                            <th>Количество логов</th>
+                            <th>Открыть подробно список логов платы </th>
+                            </tr>
+                    </thead>
+                    <tbody>
+                        {% for controlpass_name in controlpass_names %}
+                        <tr>
+                            <th>{{controlpass_name[0]}}</th>
+                            <th>{{controlpass_name[1]}}</th>
+                            <th>
+                                <form action="/get_fast_controlpass_logs" method="get" target=_self>
+                                <button value="{{controlpass_name[0]}}" name="controlpass_code" type="submit">Посмотреть эту плату подробнее</button>
+                                </form>
+                            </th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table> 
              
         
             <script>
