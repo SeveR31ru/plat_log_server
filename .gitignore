@@ -4,5 +4,6 @@
 /used_OCP_pass
 /ocp_logs
 /tofino_logs
+/controlpass_logs
 /web/*.html
 /ocp_pass/*.xlsx
